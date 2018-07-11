@@ -13,12 +13,12 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 23, manifest = "src/main/AndroidManifest.xml")
 public class RecordedProgramTest extends TestCase {
     private static final String TEST_INPUT_ID = "com.example.android.sampletvinput/.Test";

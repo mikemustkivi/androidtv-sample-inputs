@@ -20,7 +20,7 @@ import com.google.android.media.tv.companionlibrary.BuildConfig;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import static org.junit.Assert.fail;
  * Test {@link Advertisement} can be properly generated with builder pattern, copied from another
  * {@link Advertisement} instance and parsed by {@link InternalProviderData}.
  */
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, manifest = "src/main/AndroidManifest.xml")
 public class AdvertisementTest {
     private static final long START_TIME_MS = 0;

@@ -24,6 +24,9 @@ android {
     sourceSets {
         androidTest.setRoot('src/androidTest/')
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 configurations {

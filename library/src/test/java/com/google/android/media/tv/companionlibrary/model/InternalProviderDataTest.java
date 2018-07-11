@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Tests that core and custom data objects can be created using the InternalProviderData class
  * and retrieved successfully with proper error handling
  */
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 23, manifest = "src/main/AndroidManifest.xml")
 public class InternalProviderDataTest extends TestCase {
     private static final String KEY_SPLASHSCREEN = "splashscreen";
