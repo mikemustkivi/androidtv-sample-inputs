@@ -61,7 +61,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class BaseTvInputService extends TvInputService {
     private static final String TAG = BaseTvInputService.class.getSimpleName();
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     /**
      * Used for interacting with {@link SharedPreferences}.

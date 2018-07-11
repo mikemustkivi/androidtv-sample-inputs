@@ -66,7 +66,7 @@ public class TvContractUtils {
     public static final int SOURCE_TYPE_HTTP_PROGRESSIVE = 3;
 
     private static final String TAG = "TvContractUtils";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private static final SparseArray<String> VIDEO_HEIGHT_TO_FORMAT_MAP = new SparseArray<>();
 
     static {

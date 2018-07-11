@@ -45,7 +45,7 @@ import java.util.List;
 public class AdController implements AdErrorEvent.AdErrorListener,
         AdsLoader.AdsLoadedListener, AdEvent.AdEventListener {
     private static final String TAG = "AdController";
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     /**
      * Callback interface used to delegate major ad request events.
