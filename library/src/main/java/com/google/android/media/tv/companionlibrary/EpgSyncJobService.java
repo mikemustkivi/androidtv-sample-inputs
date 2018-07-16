@@ -426,6 +426,7 @@ public abstract class EpgSyncJobService extends JobService {
                 intent.putExtra(EpgSyncJobService.BUNDLE_KEY_CHANNEL_COUNT, channelMap.size());
                 intent.putExtra(EpgSyncJobService.BUNDLE_KEY_SCANNED_CHANNEL_DISPLAY_NAME,
                         channelMap.valueAt(i).getDisplayName());
+                Log.d(TAG, EpgSyncJobService.BUNDLE_KEY_SCANNED_CHANNEL_DISPLAY_NAME + ":  " + channelMap.valueAt(i).getDisplayName());
                 intent.putExtra(EpgSyncJobService.BUNDLE_KEY_SCANNED_CHANNEL_DISPLAY_NUMBER,
                         channelMap.valueAt(i).getDisplayNumber());
                 intent.putExtra(EpgSyncJobService.SYNC_STATUS, EpgSyncJobService.SYNC_SCANNED);

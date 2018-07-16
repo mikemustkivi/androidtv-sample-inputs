@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -241,8 +242,11 @@ public class RichTvInputService extends BaseTvInputService {
             if (DEBUG) {
                 Log.d(TAG, "Tune to " + channelUri.toString());
             }
+            Log.d(TAG, "onTune, notifyVideoUnavailable");
             notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_TUNING);
+            Log.d(TAG, "onTune, releasePlayer");
             releasePlayer();
+            Log.d(TAG, "onTune, super.onTune(channelUri)");
             return super.onTune(channelUri);
         }
 

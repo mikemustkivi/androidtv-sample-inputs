@@ -95,7 +95,7 @@ public class TvContractUtils {
         Cursor cursor = null;
         try {
             cursor = resolver.query(channelsUri, projection, null, null, null);
-            cursor = resolver.query(channelsUri, projection, null, null, null);
+//            cursor = resolver.query(channelsUri, projection, null, null, null);
             while (cursor != null && cursor.moveToNext()) {
                 long rowId = cursor.getLong(0);
                 int originalNetworkId = cursor.getInt(1);
@@ -240,6 +240,7 @@ public class TvContractUtils {
      * @hide
      */
     public static Channel getChannel(ContentResolver resolver, Uri channelUri) {
+        Log.d(TAG, "getChannel, channelUri: " + channelUri.toString());
         Cursor cursor = null;
         try {
             cursor = resolver.query(channelUri, Channel.PROJECTION, null, null, null);
@@ -269,6 +270,8 @@ public class TvContractUtils {
      * @hide
      */
     public static List<Program> getPrograms(ContentResolver resolver, Uri channelUri) {
+        Log.d(TAG, "getPrograms, channelUri: " + channelUri);
+        Log.d(TAG, "getPrograms, stacktrace:", new IllegalStateException("GetCurrentProgramRunnable.run called"));
         if (channelUri == null) {
             return null;
         }

@@ -116,6 +116,7 @@ public abstract class BaseTvInputService extends TvInputService {
         mChannelObserver = new ContentObserver(new Handler(mDbHandlerThread.getLooper())) {
             @Override
             public void onChange(boolean selfChange) {
+                Log.d(TAG, "ContentObserver, onChange");
                 updateChannelMap();
             }
         };
@@ -130,6 +131,7 @@ public abstract class BaseTvInputService extends TvInputService {
     }
 
     private void updateChannelMap() {
+        Log.d(TAG, "updateChannelMap");
         ComponentName component = new ComponentName(BaseTvInputService.this.getPackageName(),
                 BaseTvInputService.this.getClass().getName());
         String inputId = TvContract.buildInputId(component);
@@ -219,6 +221,7 @@ public abstract class BaseTvInputService extends TvInputService {
 
         @Override
         public boolean handleMessage(Message msg) {
+            Log.d(TAG, "handleMessage, message:" + msg.what);
             switch (msg.what) {
                 case MSG_PLAY_CONTENT:
                     mCurrentProgram = (Program) msg.obj;
@@ -264,13 +267,16 @@ public abstract class BaseTvInputService extends TvInputService {
 
         @Override
         public boolean onTune(Uri channelUri) {
+            Log.d(TAG, "onTune");
             mNeedToCheckChannelAd = true;
 
+            Log.d(TAG, "onTune, notifyVideoUnavailable");
             notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_TUNING);
 
             mChannelUri = channelUri;
             long channelId = ContentUris.parseId(channelUri);
             mCurrentChannel = mChannelMap.get(channelId);
+            Log.d(TAG, "onTune, mCurrentChannel:" + mCurrentChannel);
 
             mTimeShiftedPlaybackPosition = TvInputManager.TIME_SHIFT_INVALID_TIME;
 
@@ -281,7 +287,9 @@ public abstract class BaseTvInputService extends TvInputService {
             if (mDbHandler != null) {
                 mUnblockedRatingSet.clear();
                 mDbHandler.removeCallbacks(mGetCurrentProgramRunnable);
+                Log.d(TAG, "onTune, new GetCurrentProgramRunnable("+mChannelUri+"):");
                 mGetCurrentProgramRunnable = new GetCurrentProgramRunnable(mChannelUri);
+                Log.d(TAG, "onTune, mDbHandler.post(mGetCurrentProgramRunnable)");
                 mDbHandler.post(mGetCurrentProgramRunnable);
             }
             return true;
@@ -537,27 +545,38 @@ public abstract class BaseTvInputService extends TvInputService {
         }
 
         private void scheduleNextProgram() {
+            Log.d(TAG, "scheduleNextProgram, removeCallbacks()");
             mDbHandler.removeCallbacks(mGetCurrentProgramRunnable);
+            Log.d(TAG, "scheduleNextProgram, postDelayed()");
+            Log.d(TAG, "scheduleNextProgram, postDelayed(), mCurrentProgram.getEndTimeUtcMillis() - getCurrentTime(): "
+                    + (mCurrentProgram.getEndTimeUtcMillis() - getCurrentTime()));
             mDbHandler.postDelayed(mGetCurrentProgramRunnable,
                     mCurrentProgram.getEndTimeUtcMillis() - getCurrentTime());
         }
 
         private void playCurrentContent() {
+            Log.d(TAG, "playCurrentContent");
             if (mTvInputManager.isParentalControlsEnabled() && !checkCurrentProgramContent()) {
+                Log.d(TAG, "playCurrentContent, scheduleNextProgram");
                 scheduleNextProgram();
                 return;
             }
 
             if (mNeedToCheckChannelAd) {
+                Log.d(TAG, "playCurrentContent, playCurrentChannel");
                 playCurrentChannel();
                 return;
             }
 
+            Log.d(TAG, "playCurrentContent, playCurrentProgram()");
             if (playCurrentProgram()) {
+                Log.d(TAG, "playCurrentContent, setTvPlayerSurface(mSurface)");
                 setTvPlayerSurface(mSurface);
+                Log.d(TAG, "playCurrentContent, setTvPlayerVolume(mVolume)");
                 setTvPlayerVolume(mVolume);
                 if (mCurrentProgram != null) {
                     // Prepare to play the upcoming program.
+                    Log.d(TAG, "playCurrentContent, scheduleNextProgram()");
                     scheduleNextProgram();
                 }
             }
@@ -871,6 +890,8 @@ public abstract class BaseTvInputService extends TvInputService {
 
             @Override
             public void run() {
+                Log.d(TAG, "run, mChannelUri:" + mChannelUri);
+                Log.d(TAG, "run, stacktrace:", new IllegalStateException("GetCurrentProgramRunnable.run called"));
                 ContentResolver resolver = mContext.getContentResolver();
                 Program program = null;
                 long timeShiftedDifference = System.currentTimeMillis() -
@@ -884,6 +905,7 @@ public abstract class BaseTvInputService extends TvInputService {
                     program = TvContractUtils.getCurrentProgram(resolver, mChannelUri);
                 }
                 mHandler.removeMessages(MSG_PLAY_CONTENT);
+                Log.d(TAG, "run, sendToTarget:");
                 mHandler.obtainMessage(MSG_PLAY_CONTENT, program).sendToTarget();
             }
         }
