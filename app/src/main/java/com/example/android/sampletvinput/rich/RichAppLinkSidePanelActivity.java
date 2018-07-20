@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v17.leanback.widget.VerticalGridView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,13 @@ import java.util.List;
  * Activity that shows a simple side panel UI.
  */
 public class RichAppLinkSidePanelActivity extends Activity {
+    private static final String TAG = "RichAppLinkSidePanelActivity";
     private VerticalGridView mAppLinkMenuList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         List<Channel> Channels = TvContractUtils.getChannels(getContentResolver());
         Channel appLinkChannel = null;
 
@@ -80,22 +83,26 @@ public class RichAppLinkSidePanelActivity extends Activity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            Log.d(TAG, "AppLinkMenuAdapter.onCreateViewHolder");
             View view = getLayoutInflater().inflate(viewType, mAppLinkMenuList, false);
             return new ViewHolder(view);
         }
 
         @Override
         public int getItemViewType(int position) {
+            Log.d(TAG, "AppLinkMenuAdapter.getItemViewType");
             return R.layout.rich_app_link_side_panel_item;
         }
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
+            Log.d(TAG, "AppLinkMenuAdapter.onBindViewHolder");
             TextView view = (TextView) viewHolder.itemView;
             view.setText(getResources().getString(ITEM_STRING_RES_IDS[position]));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d(TAG, "AppLinkMenuAdapter View.OnClickListener onClick");
                     finish();
                 }
             });
@@ -103,6 +110,7 @@ public class RichAppLinkSidePanelActivity extends Activity {
 
         @Override
         public int getItemCount() {
+            Log.d(TAG, "AppLinkMenuAdapter getItemCount");
             return ITEM_COUNT;
         }
     }

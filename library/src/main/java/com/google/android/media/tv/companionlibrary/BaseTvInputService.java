@@ -242,6 +242,7 @@ public abstract class BaseTvInputService extends TvInputService {
 
         @Override
         public boolean onSetSurface(Surface surface) {
+            Log.d(TAG, "onSetSurface, surface:" + surface);
             setTvPlayerSurface(surface);
             mSurface = surface;
             return true;
